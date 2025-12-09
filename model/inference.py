@@ -6,7 +6,7 @@ tf.keras.config.enable_unsafe_deserialization()
 
 model = None
 
-def load_model(model_path="/Users/hadriendecaumont/Downloads/model1.keras"):
+def load_model(model_path="/model_keras/model2.keras"):
     """Charge le modèle une seule fois."""
     global model
     if model is None:
@@ -22,3 +22,4 @@ def predict(mel):
     onset_pred = model.predict(mel_input, verbose=0)[0]
 
     return onset_pred
+

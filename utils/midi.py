@@ -6,7 +6,7 @@ FPS = 22050 / 220
 
 
 
-def probs_to_onset_binary(onset_pred, threshold=0.5, min_distance=100):
+def probs_to_onset_binary(onset_pred, threshold=0.5, min_distance=10):
     """Convertit les probabilités en onsets binaires."""
     T, P = onset_pred.shape
     onset_binary = np.zeros_like(onset_pred, dtype=np.float32)
