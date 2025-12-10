@@ -1,3 +1,11 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+os.environ['TF_NUM_INTEROP_THREADS'] = '1'
+os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
+
+
 import sys
 import numpy as np
 import tensorflow as tf
