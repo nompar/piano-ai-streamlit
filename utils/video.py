@@ -1,6 +1,7 @@
 import os
 import shutil
 from synthviz import create_video
+# from synthviz_local import create_video
 
 
 def generate_video(midi_path, video_path):
@@ -11,8 +12,8 @@ def generate_video(midi_path, video_path):
         image_width=1280,
         image_height=720,
         fps=30,
-        falling_note_color=[75, 105, 177],
-        pressed_key_color=[75, 105, 177],
+        falling_note_color=[55, 247, 18],
+        pressed_key_color=[75, 158, 46],
     )
 
     # Cleanup des fichiers créés par synthviz

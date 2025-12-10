@@ -10,6 +10,9 @@ import sys
 import numpy as np
 import tensorflow as tf
 import librosa
+import pretty_midi
+import random
+
 
 SR = 22000
 HOP_LENGTH = 220
@@ -41,7 +44,7 @@ def probs_to_onset_binary(onset_pred, threshold=0.85, min_distance=10):
                 t += 1
     return onset_binary
 
-def onset_binary_to_midi(onset_binary, output_path, fps=100, pitch_min=21, min_duration=0.25, velocity=40):
+def onset_binary_to_midi(onset_binary, output_path, fps=100, pitch_min=21, min_duration=0.35, velocity=25):
     import pretty_midi
     T, n_pitches = onset_binary.shape
     pm = pretty_midi.PrettyMIDI()
@@ -65,6 +68,28 @@ def onset_binary_to_midi(onset_binary, output_path, fps=100, pitch_min=21, min_d
     pm.instruments.append(piano)
     pm.write(output_path)
 
+
+
+def humanize_midi(midi_path, velocity_variation=5, timing_variation=0):
+    """Ajoute des variations de vélocité et timing pour un rendu plus humain."""
+    midi = pretty_midi.PrettyMIDI(midi_path)
+
+    for instrument in midi.instruments:
+        for note in instrument.notes:
+            # Variation de vélocité
+            new_velocity = note.velocity + random.randint(-velocity_variation, velocity_variation)
+            note.velocity = max(1, min(127, new_velocity))
+
+            # Micro-décalage du timing (en secondes)
+            offset = random.uniform(-timing_variation, timing_variation)
+            note.start = max(0, note.start + offset)
+            note.end = note.end + offset
+
+    midi.write(midi_path)
+
+
+
+
 if __name__ == "__main__":
     audio_path = sys.argv[1]
     midi_output = sys.argv[2]
@@ -78,5 +103,6 @@ if __name__ == "__main__":
     onset_pred = model.predict(mel_example, verbose=0)[0]
     onset_binary = probs_to_onset_binary(onset_pred)
     onset_binary_to_midi(onset_binary, midi_output)
+    # humanize_midi(midi_output)
 
     print("OK")
